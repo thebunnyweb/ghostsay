@@ -1,0 +1,11 @@
+name: Feature request
+description: Suggest an idea or a new preset
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like ghostsay to do?
+      description: New places, effects or options are all welcome.
+    validations:
+      required: true

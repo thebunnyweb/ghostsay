@@ -1,0 +1,11 @@
+version: 2
+updates:
+  # Dev tooling only (ghostsay has no runtime dependencies): one grouped PR.
+  - package-ecosystem: npm
+    directory: /
+    schedule: { interval: weekly }
+    groups:
+      dev-tools: { dependency-type: development, patterns: ["*"] }
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: { interval: monthly }

@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Packed tarballs
+*.tgz
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment files
+.env
+.env.*
+
+# Editors
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.sw?
+
+# OS files
+.DS_Store
+._*
+Thumbs.db

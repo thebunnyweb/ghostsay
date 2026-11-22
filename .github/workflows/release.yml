@@ -1,0 +1,56 @@
+name: Release
+
+# On every push to main, Changesets either:
+#   1. opens/updates a "Version packages" PR (when there are pending changesets), or
+#   2. publishes the version in package.json to npm if it isn't there yet; then
+#      scripts/github-release.mjs tags it (vX.Y.Z) and creates a GitHub Release from the CHANGELOG.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency: release-${{ github.ref }}
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write # npm trusted publishing (OIDC) + provenance: no NPM_TOKEN needed
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          registry-url: https://registry.npmjs.org
+      # Trusted publishing needs npm 11.5.1 or newer.
+      - run: npm install -g npm@latest
+      - run: npm ci
+      - run: npm test
+      - name: Version PR or publish
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          version: npm run version-packages
+          publish: npx changeset publish
+          commit: "chore: version packages"
+          title: "chore: version packages"
+          # Our own script does this: the action can't detect @changesets/cli v3 publishes.
+          createGithubReleases: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # No npm token: npm trusts this workflow (npmjs.com → ghostsay → Settings → Trusted Publisher).
+          NPM_CONFIG_PROVENANCE: "true"
+      - name: GitHub Releases
+        # Tags vX.Y.Z and creates a release for every version on npm without one.
+        if: steps.changesets.outputs.hasChangesets == 'false'
+        run: node scripts/github-release.mjs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WAIT_FOR_NPM: "true"

@@ -1,0 +1,48 @@
+{
+  "name": "ghostsay",
+  "version": "0.1.0",
+  "description": "Like cowsay, but your message gets a very serious animated performance in the terminal. npx ghostsay \"hello\" --matrix",
+  "author": "Harsh Shah",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thebunnyweb/ghostsay.git"
+  },
+  "homepage": "https://github.com/thebunnyweb/ghostsay#readme",
+  "bugs": {
+    "url": "https://github.com/thebunnyweb/ghostsay/issues"
+  },
+  "bin": {
+    "ghostsay": "bin/cli.js"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=14"
+  },
+  "scripts": {
+    "test": "node test/smoke.js",
+    "changeset": "changeset",
+    "version-packages": "changeset version && npm install --package-lock-only --ignore-scripts",
+    "release": "npm test && changeset publish"
+  },
+  "keywords": [
+    "cli",
+    "terminal",
+    "animation",
+    "cowsay",
+    "ascii",
+    "ghost",
+    "fun",
+    "npx",
+    "scenes",
+    "presets"
+  ],
+  "devDependencies": {
+    "@changesets/changelog-github": "^1.0.1",
+    "@changesets/cli": "^3.0.3"
+  }
+}

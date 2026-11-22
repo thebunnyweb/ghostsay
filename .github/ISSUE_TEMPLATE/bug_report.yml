@@ -1,0 +1,21 @@
+name: Bug report
+description: Something is broken or looks wrong
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: The command you ran, what you expected, what you saw. A screenshot helps a lot for anything visual.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: ghostsay version
+      placeholder: npx ghostsay --version
+  - type: input
+    id: env
+    attributes:
+      label: OS / Node / terminal app
+      placeholder: macOS 15, Node 24, iTerm2
